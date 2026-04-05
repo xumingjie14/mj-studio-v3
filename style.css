@@ -655,3 +655,212 @@ body {
         justify-content: space-between;
     }
     
+
+/* 新闻面板样式 */
+.news-categories {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+}
+
+.news-category {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--color-border-light);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-md);
+    transition: all 0.2s ease;
+}
+
+.news-category:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: var(--color-accent);
+}
+
+.category-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-sm);
+}
+
+.category-name {
+    font-weight: 600;
+    color: var(--color-accent);
+    font-size: var(--font-size-sm);
+}
+
+.category-count {
+    background: rgba(255, 107, 0, 0.2);
+    color: var(--color-accent);
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: var(--font-size-xs);
+    font-weight: 600;
+}
+
+.news-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+}
+
+.news-item {
+    padding: var(--spacing-sm);
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: var(--radius-sm);
+    border-left: 3px solid var(--color-info);
+    font-size: var(--font-size-sm);
+    line-height: 1.4;
+}
+
+.news-item.critical {
+    border-left-color: var(--color-critical);
+    background: rgba(255, 68, 68, 0.05);
+}
+
+.news-item.warning {
+    border-left-color: var(--color-warning);
+    background: rgba(255, 204, 0, 0.05);
+}
+
+.news-title {
+    font-weight: 500;
+    margin-bottom: 4px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.news-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: var(--font-size-xs);
+    color: var(--color-text-tertiary);
+}
+
+/* 市场面板样式 */
+.market-overview {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+}
+
+.market-index {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--color-border-light);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-md);
+    text-align: center;
+    transition: all 0.2s ease;
+}
+
+.market-index:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
+}
+
+.index-symbol {
+    font-weight: 700;
+    font-size: var(--font-size-lg);
+    margin-bottom: var(--spacing-xs);
+    color: var(--color-accent);
+}
+
+.index-name {
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-xs);
+    margin-bottom: var(--spacing-sm);
+}
+
+.index-price {
+    font-weight: 700;
+    font-size: var(--font-size-md);
+    margin-bottom: var(--spacing-xs);
+}
+
+.index-change {
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+}
+
+.index-change.positive {
+    color: var(--color-success);
+}
+
+.index-change.negative {
+    color: var(--color-critical);
+}
+
+/* 情绪指示器 */
+.sentiment-indicator {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    padding: var(--spacing-md);
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--spacing-lg);
+}
+
+.sentiment-gauge {
+    flex: 1;
+    height: 8px;
+    background: var(--color-border);
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+}
+
+.sentiment-fill {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.3s ease;
+}
+
+.sentiment-fill.greed {
+    background: linear-gradient(90deg, var(--color-success), var(--color-warning));
+}
+
+.sentiment-fill.fear {
+    background: linear-gradient(90deg, var(--color-warning), var(--color-critical));
+}
+
+.sentiment-label {
+    font-weight: 600;
+    font-size: var(--font-size-sm);
+    min-width: 80px;
+    text-align: center;
+}
+
+.sentiment-score {
+    font-weight: 700;
+    font-size: var(--font-size-lg);
+    color: var(--color-accent);
+    min-width: 40px;
+    text-align: right;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .news-categories {
+        grid-template-columns: 1fr;
+    }
+    
+    .market-overview {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .sentiment-indicator {
+        flex-direction: column;
+        gap: var(--spacing-sm);
+    }
+    
+    .sentiment-label,
+    .sentiment-score {
+        min-width: auto;
+        text-align: center;
+    }
+}

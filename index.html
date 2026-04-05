@@ -1,3 +1,280 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MJ工作室 · Logos哨兵终端 v3.0</title>
+    
+    <!-- 字体和图标 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- 样式文件 -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- 头部 -->
+        <header class="header">
+            <div class="logo">
+                <div class="logo-icon">⚙️</div>
+                <div class="logo-text">
+                    <h1>MJ工作室 · Logos哨兵终端 v3.0</h1>
+                    <p>宏观流动性监控系统 + 实时市场情报</p>
+                </div>
+            </div>
+            <div class="system-status">
+                <div class="status-indicator online"></div>
+                <span class="status-text">系统在线</span>
+                <div class="time-display">
+                    <i class="fas fa-clock"></i>
+                    <span id="beijing-time">04:08</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- 全局警报 -->
+        <div class="global-alert critical" id="global-alert">
+            <div class="alert-icon">
+                <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            <div class="alert-content">
+                <div class="alert-title">管道压力警报</div>
+                <div class="alert-message">SOFR-IORB差值达到临界水平，市场流动性紧张</div>
+            </div>
+            <div class="alert-time" id="alert-time">刚刚</div>
+        </div>
+
+        <!-- 主仪表板 -->
+        <main class="dashboard">
+            <!-- 第1行: 核心监控 -->
+            <div class="dashboard-row">
+                <!-- 流动性监控 -->
+                <div class="panel liquidity-panel">
+                    <div class="panel-header">
+                        <div class="panel-title">
+                            <i class="fas fa-tachometer-alt"></i>
+                            <span>流动性监控</span>
+                        </div>
+                        <div class="panel-badge critical" id="liquidity-status">🚨 爆管警报</div>
+                    </div>
+                    <div class="panel-content">
+                        <div class="metric-grid">
+                            <div class="metric-card">
+                                <div class="metric-label">管道压力</div>
+                                <div class="metric-value critical" id="pipe-pressure">+0.00%</div>
+                                <div class="metric-subtitle">SOFR - IORB</div>
+                                <div class="metric-progress">
+                                    <div class="progress-bar critical" style="width: 100%"></div>
+                                </div>
+                            </div>
+                            <div class="metric-card">
+                                <div class="metric-label">净流动性</div>
+                                <div class="metric-value" id="net-liquidity">$5.83T</div>
+                                <div class="metric-subtitle">WALCL - TGA - RRP</div>
+                                <div class="metric-trend neutral">
+                                    <i class="fas fa-minus"></i> 稳定
+                                </div>
+                            </div>
+                            <div class="metric-card">
+                                <div class="metric-label">SOFR</div>
+                                <div class="metric-value" id="sofr-value">3.65%</div>
+                                <div class="metric-subtitle">担保隔夜融资利率</div>
+                                <div class="metric-change neutral">0.00%</div>
+                            </div>
+                            <div class="metric-card">
+                                <div class="metric-label">IORB</div>
+                                <div class="metric-value" id="iorb-value">3.65%</div>
+                                <div class="metric-subtitle">准备金余额利率</div>
+                                <div class="metric-change neutral">0.00%</div>
+                            </div>
+                            <div class="metric-card">
+                                <div class="metric-label">美元指数</div>
+                                <div class="metric-value" id="dxy-value">104.50</div>
+                                <div class="metric-subtitle">DXY</div>
+                                <div class="metric-change neutral">+0.15%</div>
+                            </div>
+                            <div class="metric-card">
+                                <div class="metric-label">调整后流动性</div>
+                                <div class="metric-value" id="adjusted-liquidity">$55.8B</div>
+                                <div class="metric-subtitle">(WALCL-TGA-RRP)/DXY</div>
+                                <div class="metric-trend neutral">
+                                    <i class="fas fa-chart-line"></i> 新指标
+                                </div>
+                            </div>
+                        </div>
+                        <div class="data-source">
+                            <i class="fas fa-database"></i>
+                            数据源: FRED API | 更新: <span id="liquidity-update">实时</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 市场概览 -->
+                <div class="panel market-panel">
+                    <div class="panel-header">
+                        <div class="panel-title">
+                            <i class="fas fa-chart-line"></i>
+                            <span>市场概览</span>
+                        </div>
+                        <div class="panel-badge success" id="market-status">✅ 交易中</div>
+                    </div>
+                    <div class="panel-content">
+                        <!-- 市场情绪 -->
+                        <div class="sentiment-indicator">
+                            <div class="sentiment-label" id="sentiment-label">中性</div>
+                            <div class="sentiment-gauge">
+                                <div class="sentiment-fill" id="sentiment-fill" style="width: 50%"></div>
+                            </div>
+                            <div class="sentiment-score" id="sentiment-score">50</div>
+                        </div>
+                        
+                        <!-- 主要指数 -->
+                        <div class="market-overview" id="market-indices">
+                            <div class="market-index">
+                                <div class="index-symbol">DOW</div>
+                                <div class="index-name">道琼斯</div>
+                                <div class="index-price">38,500.25</div>
+                                <div class="index-change positive">+0.45%</div>
+                            </div>
+                            <div class="market-index">
+                                <div class="index-symbol">S&P</div>
+                                <div class="index-name">标普500</div>
+                                <div class="index-price">5,200.75</div>
+                                <div class="index-change positive">+0.32%</div>
+                            </div>
+                            <div class="market-index">
+                                <div class="index-symbol">NDQ</div>
+                                <div class="index-name">纳斯达克</div>
+                                <div class="index-price">16,200.50</div>
+                                <div class="index-change negative">-0.15%</div>
+                            </div>
+                            <div class="market-index">
+                                <div class="index-symbol">VIX</div>
+                                <div class="index-name">恐慌指数</div>
+                                <div class="index-price">15.25</div>
+                                <div class="index-change positive">-2.35%</div>
+                            </div>
+                        </div>
+                        
+                        <div class="data-source">
+                            <i class="fas fa-database"></i>
+                            数据源: 市场数据API | 更新: <span id="market-update">2分钟前</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 第2行: 新闻与情报 -->
+            <div class="dashboard-row">
+                <!-- 新闻监控 -->
+                <div class="panel news-panel">
+                    <div class="panel-header">
+                        <div class="panel-title">
+                            <i class="fas fa-newspaper"></i>
+                            <span>新闻监控</span>
+                        </div>
+                        <div class="panel-badge warning" id="news-status">⚠️ 10条警报</div>
+                    </div>
+                    <div class="panel-content">
+                        <div class="news-categories" id="news-categories">
+                            <!-- 动态加载新闻分类 -->
+                            <div class="loading">加载新闻数据...</div>
+                        </div>
+                        
+                        <!-- 最新警报 -->
+                        <div class="alert-list" id="news-alerts">
+                            <div class="alert-item critical">
+                                <div class="alert-content">
+                                    <div class="alert-title">市场波动警报</div>
+                                    <div class="alert-message">VIX指数大幅上升，市场恐慌情绪加剧</div>
+                                </div>
+                                <div class="alert-time">15分钟前</div>
+                            </div>
+                        </div>
+                        
+                        <div class="data-source">
+                            <i class="fas fa-database"></i>
+                            数据源: 新闻监控API | 更新: <span id="news-update">10分钟前</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 预警中心 -->
+                <div class="panel alert-panel">
+                    <div class="panel-header">
+                        <div class="panel-title">
+                            <i class="fas fa-bell"></i>
+                            <span>预警中心</span>
+                        </div>
+                        <div class="alert-stats">
+                            <span class="alert-count critical" id="critical-count">1</span>
+                            <span class="alert-count warning" id="warning-count">2</span>
+                            <span class="alert-count info" id="pending-count">3</span>
+                        </div>
+                    </div>
+                    <div class="panel-content">
+                        <div class="alert-list" id="alert-list">
+                            <!-- 动态加载警报 -->
+                            <div class="loading">加载警报数据...</div>
+                        </div>
+                        
+                        <div class="alert-summary">
+                            <div class="summary-item">
+                                <div class="summary-label">严重警报</div>
+                                <div class="summary-value critical" id="summary-critical">1</div>
+                            </div>
+                            <div class="summary-item">
+                                <div class="summary-label">警告</div>
+                                <div class="summary-value warning" id="summary-warning">2</div>
+                            </div>
+                            <div class="summary-item">
+                                <div class="summary-label">信息</div>
+                                <div class="summary-value info" id="summary-info">3</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 第3行: 扩展功能 -->
+            <div class="dashboard-row">
+                <!-- 拍卖追踪 -->
+                <div class="panel auction-panel">
+                    <div class="panel-header">
+                        <div class="panel-title">
+                            <i class="fas fa-gavel"></i>
+                            <span>拍卖追踪</span>
+                        </div>
+                        <div class="panel-badge warning" id="auction-status">⚠️ 今日4场</div>
+                    </div>
+                    <div class="panel-content">
+                        <div class="auction-list" id="auction-list">
+                            <!-- 动态加载拍卖数据 -->
+                            <div class="loading">加载拍卖数据...</div>
+                        </div>
+                        <div class="data-source">
+                            <i class="fas fa-database"></i>
+                            数据源: TreasuryDirect | 更新: <span id="auction-update">30分钟前</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 加密货币 -->
+                <div class="panel crypto-panel">
+                    <div class="panel-header">
+                        <div class="panel-title">
+                            <i class="fas fa-coins"></i>
+                            <span>加密货币</span>
+                        </div>
+                        <div class="panel-badge success" id="crypto-status">✅ 市场稳定</div>
+                    </div>
+                    <div class="panel-content">
+                        <div class="crypto-grid" id="crypto-grid">
+                            <!-- 动态加载加密货币数据 -->
+                            <div class="loading">加载加密货币数据...</div>
+                        </div>
+                        <div class="data-source">
                             <i class="fas fa-database"></i>
                             数据源: CoinGecko API | 更新: <span id="crypto-update">15分钟前</span>
                         </div>

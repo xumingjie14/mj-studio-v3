@@ -27,19 +27,26 @@ module.exports = async (req, res) => {
     const fredApiKey = process.env.FRED_API_KEY || 'demo';
     
     // 模拟数据（实际开发中替换为真实API调用）
+    const dxy = 104.50; // 美元指数
+    const netLiquidity = 5827625.673; // WALCL - WTREGEN - RRPONTSYD
+    const adjustedLiquidity = netLiquidity / dxy; // 新公式: (WALCL-TGA-RRP)/DXY
+    
     const mockData = {
       sofr: 3.65,
       iorb: 3.65,
       walcl: 6675344,
       wtregen: 847718.0,
       rrpartsyd: 0.327,
-      netLiquidity: 5827625.673,
+      dxy: dxy,
+      netLiquidity: netLiquidity,
+      adjustedLiquidity: adjustedLiquidity,
       pipePressure: 0.00,
       lastUpdated: new Date().toISOString(),
       status: 'critical',
       formulas: {
         netLiquidity: 'WALCL - WTREGEN - RRPONTSYD',
-        pipePressure: 'SOFR - IORB'
+        pipePressure: 'SOFR - IORB',
+        adjustedLiquidity: '(WALCL - WTREGEN - RRPONTSYD) / DXY'
       },
       alerts: [{
         id: '1',

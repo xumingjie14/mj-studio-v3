@@ -255,6 +255,19 @@ class LogosSentinel {
             progressBar.style.width = `${width}%`;
         }
         
+        // 更新DXY
+        const dxyElement = document.getElementById('dxy-value');
+        if (dxyElement) {
+            dxyElement.textContent = data.dxy.toFixed(2);
+        }
+        
+        // 更新调整后流动性
+        const adjustedElement = document.getElementById('adjusted-liquidity');
+        if (adjustedElement) {
+            const billion = data.adjustedLiquidity / 1000;
+            adjustedElement.textContent = `$${billion.toFixed(1)}B`;
+        }
+        
         // 更新数据源时间
         const updateElement = document.getElementById('liquidity-update');
         if (updateElement) {
@@ -382,6 +395,9 @@ class LogosSentinel {
     generateMockLiquidityData() {
         const now = new Date();
         const pipePressure = 0.00; // 模拟爆管警报
+        const dxy = 104.50; // 美元指数模拟值
+        const netLiquidity = 5827625.673; // WALCL - WTREGEN - RRPONTSYD
+        const adjustedLiquidity = netLiquidity / dxy; // 新公式: (WALCL-TGA-RRP)/DXY
         
         return {
             sofr: 3.65,
@@ -389,13 +405,16 @@ class LogosSentinel {
             walcl: 6675344,
             wtregen: 847718.0,
             rrpartsyd: 0.327,
-            netLiquidity: 5827625.673,
+            dxy: dxy,
+            netLiquidity: netLiquidity,
+            adjustedLiquidity: adjustedLiquidity,
             pipePressure: pipePressure,
             status: pipePressure >= 0 ? 'critical' : 'safe',
             timestamp: now.toISOString(),
             formulas: {
                 netLiquidity: 'WALCL - WTREGEN - RRPONTSYD',
-                pipePressure: 'SOFR - IORB'
+                pipePressure: 'SOFR - IORB',
+                adjustedLiquidity: '(WALCL - WTREGEN - RRPONTSYD) / DXY'
             }
         };
     }

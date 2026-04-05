@@ -85,20 +85,6 @@
                                 <div class="metric-subtitle">准备金余额利率</div>
                                 <div class="metric-change neutral">0.00%</div>
                             </div>
-                            <div class="metric-card">
-                                <div class="metric-label">美元指数</div>
-                                <div class="metric-value" id="dxy-value">104.50</div>
-                                <div class="metric-subtitle">DXY</div>
-                                <div class="metric-change neutral">+0.15%</div>
-                            </div>
-                            <div class="metric-card">
-                                <div class="metric-label">调整后流动性</div>
-                                <div class="metric-value" id="adjusted-liquidity">$55.8B</div>
-                                <div class="metric-subtitle">(WALCL-TGA-RRP)/DXY</div>
-                                <div class="metric-trend neutral">
-                                    <i class="fas fa-chart-line"></i> 新指标
-                                </div>
-                            </div>
                         </div>
                         <div class="data-source">
                             <i class="fas fa-database"></i>

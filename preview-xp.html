@@ -1,0 +1,35 @@
+状态: 样式已创建，等待部署');
+        console.log('🚀 部署步骤: Vercel重新部署后生效');
+        console.log('© 2026 MJ工作室 · 数据驱动决策');
+        
+        // 更新时间显示
+        function updateTime() {
+            const now = new Date();
+            const beijingTime = new Date(now.getTime() + (8 * 60 * 60 * 1000));
+            const timeString = beijingTime.toLocaleTimeString('zh-CN', {
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: false
+            });
+            const dateString = beijingTime.toLocaleDateString('zh-CN', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit'
+            });
+            
+            const timeElement = document.createElement('div');
+            timeElement.style.cssText = 'position: fixed; bottom: 10px; right: 10px; background: rgba(0,0,0,0.7); color: white; padding: 5px 10px; border-radius: 4px; font-size: 12px; font-family: monospace;';
+            timeElement.textContent = `${dateString} ${timeString} 北京时间`;
+            
+            // 移除旧的时间显示
+            const oldTime = document.querySelector('.time-display');
+            if (oldTime) oldTime.remove();
+            
+            document.body.appendChild(timeElement);
+        }
+        
+        updateTime();
+        setInterval(updateTime, 60000);
+    </script>
+</body>
+</html>
